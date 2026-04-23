@@ -5,18 +5,21 @@ import type { Movie } from "../services/api";
 
 type MovieCardProps = {
     movie: Movie;
+    onFavoriteChange?: (id: string, isFavorite: boolean) => void;
 };
 
-export default function MovieCard({movie}: MovieCardProps) {
+export default function MovieCard({movie, onFavoriteChange}: MovieCardProps) {
     const [favorites , setFavorites] = useState(getFavorites());
 
     const handleFavorites = (id: string ) => {
         if (favorites.includes(id)) {
             removeFromFavorites(id);
             setFavorites(getFavorites());
+            onFavoriteChange?.(id, false);
         } else {
             addToFavorites(id);
             setFavorites(getFavorites());
+            onFavoriteChange?.(id, true);
         }
     };
 
